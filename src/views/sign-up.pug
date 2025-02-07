@@ -1,0 +1,29 @@
+//- 注册模板
+extends base
+
+block title
+  title ToDo - Sign Up
+
+block append stylesheet
+   link(rel='stylesheet', href='/css/sign-in-up.css')
+
+block append script
+  script(src="/js/sign-in-up.js")
+ 
+block root
+  div.sign-in-up
+    form.sign-in-up__form(action="" method="post")
+      h1.sign-in-up__form__title 注册
+      div.sign-in-up__form__item
+        label(for="username" class='sign-in-up__form__item__label') 用户名
+        input#username(type="text" name="username" class='sign-in-up__form__item__input' value=username required)
+      div.sign-in-up__form__item
+        label(for="email" class='sign-in-up__form__item__label') 邮箱
+        input#email(type="email" name="email" class='sign-in-up__form__item__input' value=email required)
+      div.sign-in-up__form__item
+        label(for="password" class='sign-in-up__form__item__label') 密码
+        input#password(type="password" name="password" class='sign-in-up__form__item__input' value=password required)
+      div.sign-in-up__form__button
+        button#sign-up-submit(type="submit" class='sign-in-up__form__button__submit') 注册
+        button#sign-up-cancel(type="button" class='sign-in-up__form__button__cancel') 取消
+      div.sign-in-up__form__error= error

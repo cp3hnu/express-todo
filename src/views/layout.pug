@@ -1,0 +1,16 @@
+//- 布局模板
+extends base
+ 
+block root
+  div.layout
+    div.layout__sidebar
+      a(href="/" class='layout__sidebar__header') 
+        img(src="/images/logo.png" alt="logo" class='layout__sidebar__header__logo')
+        span.layout__sidebar__header__title ToDo App  
+      div.layout__sidebar__menu
+        a(href="/todo" class='layout-sider__menu__item') Tasks
+      div.layout__sidebar__footer
+        button#logout.layout__sidebar__footer__logout 退出登录
+    div.layout__content
+      block content
+      

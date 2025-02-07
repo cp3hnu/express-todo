@@ -1,0 +1,91 @@
+@use "./theme.scss";
+
+html,
+body,
+#root {
+  display: block;
+  min-width: 1440px;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  color: theme.$text-color;
+  font-size: 16px;
+  background-color: theme.$background-color;
+}
+
+.layout {
+  display: flex;
+  height: 100%;
+  flex-direction: row;
+  align-items: stretch;
+
+  &__sidebar {
+    width: 240px;
+    background-color: white;
+    height: 100%;
+    border-right: 1px solid #ccc;
+    position: relative;
+
+    &__header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 60px;
+      border-bottom: 1px solid #ccc;
+      text-decoration: none;
+
+      &__logo {
+        width: 25px;
+        height: 25px;
+      }
+
+      &__title {
+        margin-left: 12px;
+        color: theme.$text-color;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+
+    &__menu {
+      height: calc(100% - 120px);
+      overflow-y: auto;
+      width: 100%;
+      padding: 20px;
+    }
+
+    &__footer {
+      height: 60px;
+      border-top: 1px solid #ccc;
+     
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+
+      &__logout {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background-color: white;
+        cursor: pointer;
+        font-size: 18px;
+      }
+    }
+  }
+
+  &__content {
+    flex: 1;
+    padding: 20px;
+    background-color: white;
+  }
+}
+
+
+
+
+
+
+
+

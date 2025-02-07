@@ -1,0 +1,73 @@
+.tasks {
+  width: 400px;
+  margin: 0 auto;
+  height: 100%;
+}
+.tasks__search, .tasks__add {
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.tasks__search form, .tasks__add form {
+  display: flex;
+  width: 100%;
+}
+.tasks__search__input, .tasks__add__input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  box-sizing: border-box;
+  flex: 1;
+}
+.tasks__search__button, .tasks__add__button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #1664ff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+.tasks__list {
+  height: calc(100% - 170px);
+  overflow-y: auto;
+  width: 100%;
+  margin: 20px 0;
+}
+.tasks__list--empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+}
+.tasks__list__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+.tasks__list__item__title {
+  flex: 1;
+  font-size: 16px;
+  color: #1d1d20;
+  margin-left: 4px;
+  margin-right: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+.tasks__list__item__delete {
+  cursor: pointer;
+  flex: none;
+  border: none;
+  color: #c73131;
+  background-color: white;
+}
+.tasks__list__item--completed .tasks__list__item__title {
+  text-decoration: line-through;
+  color: #8a8a8a;
+}
