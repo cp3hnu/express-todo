@@ -1,21 +1,21 @@
 import express from "express"
-// import cookieParser from "cookie-parser";
 import process from 'node:process';
 import session from 'express-session';
 import methodOverride from "method-override";
+import 'dotenv/config'
+import logger from 'morgan';
+import debugModule from "debug";
 
-import user from './user/index.js'
-import api from './api/index.js'
-import tasks from './tasks/index.js'
+import user from './user/index.js';
+import api from './api/index.js';
+import tasks from './tasks/index.js';
 import { dirJoin } from "./utils/index.js";
 import { compileSass } from "./utils/sass.js";
-import logger from 'morgan';
 import { sequelize, authenticateAndSync } from './utils/database.js';
-import debugModule from "debug"
 const debug = debugModule('express:server')
 
 const app = express()
-const port = 3000
+const port = process.env.PORT
 
 app.set('views', dirJoin('src/views'))
 app.set('view engine', 'pug')
@@ -24,12 +24,11 @@ app.use(express.static(dirJoin('public')))
 app.use(express.json("application/json"))
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method")); // 解析 `?_method`
-// app.use(cookieParser());
 
 // 配置 express-session 中间件
 app.use(
   session({
-    secret: 'my_session_secret_key', // 用于加密 Session ID 的密钥
+    secret: process.env.SESSION_KEY, // 用于加密 Session ID 的密钥
     resave: false,                  // 是否每次请求都重新保存 Session
     saveUninitialized: false,       // 是否为未初始化的 Session 分配存储
     cookie: {
