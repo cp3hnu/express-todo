@@ -27,6 +27,7 @@ export const Task = sequelize.define('Task', {
 });
 
 User.hasMany(Task);
+Task.belongsTo(User);
 
 export const authenticateAndSync = async () => {
   try {

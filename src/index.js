@@ -5,15 +5,17 @@ import methodOverride from "method-override";
 import 'dotenv/config'
 import logger from 'morgan';
 import debugModule from "debug";
-
+import Redis from 'ioredis';
+import { RedisStore } from 'connect-redis';
 import user from './user/index.js';
 import api from './api/index.js';
 import tasks from './tasks/index.js';
 import { dirJoin } from "./utils/index.js";
 import { compileSass } from "./utils/sass.js";
 import { sequelize, authenticateAndSync } from './utils/database.js';
-const debug = debugModule('express:server')
 
+// 配置调试
+const debug = debugModule('express:server')
 const app = express()
 const port = process.env.PORT
 
@@ -25,19 +27,43 @@ app.use(express.json("application/json"))
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method")); // 解析 `?_method`
 
-// 配置 express-session 中间件
-app.use(
-  session({
-    secret: process.env.SESSION_KEY, // 用于加密 Session ID 的密钥
-    resave: false,                  // 是否每次请求都重新保存 Session
-    saveUninitialized: false,       // 是否为未初始化的 Session 分配存储
-    cookie: {
-      httpOnly: true,               // 防止 XSS 攻击
-      secure: false,                // 本地开发时关闭，生产环境启用 HTTPS 时设置为 true
-      maxAge: 60 * 60 * 1000,       // 设置 Session 有效期 (1 小时)
-    },
-  })
-);
+if (process.env.REDIS) {
+  // 配置 Redis
+  const redisClient = new Redis();
+  const redisStore = new RedisStore({
+    client: redisClient,
+    prefix: "todo:",
+  });
+
+  // 配置 express-session 中间件
+  app.use(
+    session({
+      store: redisStore,
+      secret: process.env.SESSION_KEY, // 用于加密 Session ID 的密钥
+      resave: false,                  // 是否每次请求都重新保存 Session
+      saveUninitialized: false,       // 是否为未初始化的 Session 分配存储
+      cookie: {
+        httpOnly: true,               // 防止 XSS 攻击
+        secure: false,                // 本地开发时关闭，生产环境启用 HTTPS 时设置为 true
+        maxAge: 24 * 60 * 60 * 1000,       // 设置 Session 有效期 (24 小时)
+      },
+    })
+  );
+} else {
+  // 配置 express-session 中间件
+  app.use(
+    session({
+      secret: process.env.SESSION_KEY, // 用于加密 Session ID 的密钥
+      resave: false,                  // 是否每次请求都重新保存 Session
+      saveUninitialized: false,       // 是否为未初始化的 Session 分配存储
+      cookie: {
+        httpOnly: true,               // 防止 XSS 攻击
+        secure: false,                // 本地开发时关闭，生产环境启用 HTTPS 时设置为 true
+        maxAge: 24 * 60 * 60 * 1000,       // 设置 Session 有效期 (1 小时)
+      },
+    })
+  );
+}
 
 // 监听 SCSS 文件变化，编译整个 sass 目录
 compileSass();

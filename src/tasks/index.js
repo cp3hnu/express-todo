@@ -18,6 +18,7 @@ router.get('/',async (req, res) => {
       }
     },
     order: [
+      ['completed', 'ASC'],
       ['updatedAt', 'DESC']
     ]
   });
